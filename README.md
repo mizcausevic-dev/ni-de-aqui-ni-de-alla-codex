@@ -1,6 +1,6 @@
-# Ni de Aquí Ni de Allá with Codex
+# Ni de Aquí Ni de Allá with Codex — Studio Edition
 
-A complete, deterministic 30-second cocktail recipe film. Vanilla JavaScript + Canvas, local Space Grotesk fonts, no CDN, no app framework, no runtime dependencies or keys.
+A deterministic 30-second cocktail recipe film with studio lighting, layered optical glass, faceted ice, oversized measurements, and a generated photoreal hero image. Vanilla JavaScript + Canvas, local Space Grotesk fonts, no CDN, no app framework, no runtime dependencies or keys.
 
 **Live:** https://mizcausevic-dev.github.io/ni-de-aqui-ni-de-alla-codex/
 
@@ -12,7 +12,7 @@ Requires Node.js 20 or newer. No install is needed for browser playback:
 npm start
 ```
 
-Open http://localhost:8080 and press **Play**. Or serve this folder with any static HTTP server. `index.html`, `recipe.js`, `scene.js`, `player.js`, and `assets/` are the complete web application.
+Open http://localhost:8080 and press **Play**. Or serve this folder with any static HTTP server. `index.html`, `recipe.js`, `scene.js`, `player.js`, `audio-config.json`, and `assets/` are the complete web application.
 
 ## Playback and capture
 
@@ -35,7 +35,7 @@ npm install
 npm run export
 ```
 
-Output: `output/ni-de-aqui-ni-de-alla-with-codex.mp4`, 1920 × 1080, H.264, yuv420p, 30 fps, **900 frames / exactly 30 seconds**. It is silent; no music or audio was requested. Export renders the same Canvas drawing functions directly through `@napi-rs/canvas` and feeds uncompressed frames to FFmpeg. No screen recording or browser is needed. Canvas rasterizers can differ slightly between browser and native output.
+Output: `output/cocktail-premium-graphics-preview.mp4` (without narration) or `output/cocktail-premium-with-voiceover.mp4` (with narration), 1920 × 1080, H.264, yuv420p, 30 fps, **900 frames / exactly 30 seconds**. The exporter automatically includes `assets/narration.mp3` when that generated file exists. The current preview is silent because an ElevenLabs credential was not accessible in the build session; the narration is not claimed to be generated. Export renders the same Canvas drawing functions directly through `@napi-rs/canvas` and feeds uncompressed frames to FFmpeg. No screen recording or browser is needed. Canvas rasterizers can differ slightly between browser and native output.
 
 ```sh
 node scripts/export.cjs --portrait   # 1080 × 1440 MP4
@@ -43,9 +43,31 @@ node scripts/export.cjs --stills     # inspection PNGs
 npm test                            # launch-blocker checks
 ```
 
+
+## ElevenLabs voiceover
+
+The cue script is complete in `narration.json`. Generation requires your **existing** `ELEVENLABS_API_KEY` in the environment where this command runs. The key is used only by the local Python generator and is never written into the website, GitHub files, audio manifest, or browser. An optional `ELEVENLABS_VOICE_ID` pins an existing voice; otherwise the generator chooses an account-returned narration voice, preferring George when available. The API response determines available voices.
+
+```sh
+python scripts/voiceover.py
+npm run export
+```
+
+On Windows, if the key is stored as a user environment variable but absent from the current PowerShell process:
+
+```powershell
+$env:ELEVENLABS_API_KEY = [Environment]::GetEnvironmentVariable('ELEVENLABS_API_KEY', 'User')
+python scripts/voiceover.py
+npm run export
+```
+
+The generator uses ElevenLabs `eleven_multilingual_v2`, renders each cue with neighboring text for continuity, fits each spoken cue to its corresponding visual window with pitch-preserving FFmpeg tempo adjustment, and normalizes the final 30-second mix. It produces `assets/narration.mp3` and updates `audio-config.json`. Commit both **generated public assets** with the site when ready. Never commit the API key. The browser then enables the Voiceover toggle and synchronizes the track with play, pause, seek and restart. If audio autoplay is blocked, a user click enables sound.
+
+Official API: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
+
 ## Edit the recipe or timing
 
-`recipe.js` contains all ingredient names, measurements, time ranges, credits, step labels, and named motion windows. `scene.js` derives liquid levels, color blending, dash pulses, stir, strain and glass transitions from those absolute timestamps. Retiming lives in `recipe.js`: adjust the step/ingredient ranges and matching named `motion` windows together. Keep all events contiguous and the duration at 30 seconds; `npm test` checks this. `player.js` owns controls, URL options and the playback clock.
+`narration.json` holds exact spoken copy and cue windows. `recipe.js` contains all ingredient names, measurements, time ranges, credits, step labels, and named motion windows. `scene.js` derives liquid levels, color blending, dash pulses, stir, strain and glass transitions from those absolute timestamps. Retiming lives in `recipe.js`: adjust the step/ingredient ranges and matching named `motion` windows together. Keep all events contiguous and the duration at 30 seconds; `npm test` checks this. `player.js` owns controls, URL options and the playback clock.
 
 | Seconds | Action |
 | --- | --- |
@@ -92,4 +114,4 @@ GitHub → repository Settings → Pages → Deploy from a branch → `gh-pages`
 
 ## License
 
-Application code: MIT. Space Grotesk: SIL Open Font License; see `assets/FONT-LICENSE.txt`. Recipe names and creator credits remain attributed to their respective owners. No analytics, external requests, user data collection, authentication, or API keys.
+The studio hero image is AI-generated production artwork, not a photograph from the bar. Application code: MIT. Space Grotesk: SIL Open Font License; see `assets/FONT-LICENSE.txt`. Recipe names and creator credits remain attributed to their respective owners. No analytics, external requests, user data collection, authentication, or API keys.

@@ -1,0 +1,19 @@
+{
+  "provider": "ElevenLabs",
+  "model": "eleven_multilingual_v2",
+  "voice_direction": "Warm, composed premium cocktail narration. Clear measurements, unhurried delivery, natural Spanish title.",
+  "segments": [
+    {"start":0.15,"end":2.9,"text":"Ni de Aquí, Ni de Allá. With Codex."},
+    {"start":3.05,"end":4.7,"text":"Line with banana leaf."},
+    {"start":4.9,"end":6.45,"text":"Add one large ice cube."},
+    {"start":6.65,"end":7.9,"text":"Ice the mixing glass."},
+    {"start":8.15,"end":10.5,"text":"One ounce bourbon."},
+    {"start":10.95,"end":13.3,"text":"One ounce mezcal."},
+    {"start":13.75,"end":16.1,"text":"Half an ounce of plantain syrup."},
+    {"start":16.55,"end":18.4,"text":"Two dashes Angostura bitters."},
+    {"start":18.75,"end":20.6,"text":"Two dashes banana bitters."},
+    {"start":20.95,"end":22.85,"text":"Stir until chilled."},
+    {"start":23.1,"end":24.9,"text":"Strain over the large cube."},
+    {"start":25.3,"end":29.6,"text":"Finished with fresh banana leaf. Ni de Aquí, Ni de Allá."}
+  ]
+}

@@ -1,6 +1,6 @@
 {
- "name":"ni-de-aqui-ni-de-alla-codex","version":"1.0.0","private":true,
+ "name":"ni-de-aqui-ni-de-alla-codex","version":"2.0.0","private":true,
  "description":"Deterministic 30-second Canvas cocktail film",
- "scripts":{"start":"node scripts/serve.cjs","export":"node scripts/export.cjs","test":"node scripts/verify.cjs"},
+ "scripts":{"start":"node scripts/serve.cjs","export":"node scripts/export.cjs","voiceover":"python scripts/voiceover.py","test":"node scripts/verify.cjs"},
  "devDependencies":{"@napi-rs/canvas":"0.1.100"},"engines":{"node":">=20"},"license":"MIT"
 }
